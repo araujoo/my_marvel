@@ -1,6 +1,7 @@
 package br.com.mymarvel.character;
 
 import java.util.List;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
 
 @RestController
 public class CharacterController {
@@ -54,7 +59,18 @@ public class CharacterController {
 
 		//print result
 		System.out.println(response.toString());
-		return response.toString();
+
+		JsonParser parser = new JsonParser();
+		JsonObject root = parser.parse(response.toString()).getAsJsonObject();
+		//JsonObject qwerty = root.getAsJsonObject("copyright");
+		
+		System.out.println("o copyright é: " + root.get("copyright").getAsString());
+		
+		
+		
+		
+		
+		return "ola mundo";
 	}
 
 }
