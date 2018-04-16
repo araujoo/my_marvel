@@ -1,5 +1,13 @@
 package br.com.mymarvel.comic;
 
+import java.io.IOException;
+
+
+import br.com.mymarvel.character.Character;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ComicController {
 	
-	@RequestMapping(value  = "/comic", method = RequestMethod.GET)
-	public String hello(@RequestParam("name") String name)
+	@Autowired
+	private ComicService comicService;
+	
+	@RequestMapping(value  = "/thumbnails/comics", produces = "application/json")
+	public List<Comic> hello(@RequestParam("characterNameStartsWith") String characterNameStartsWith) throws IOException
 	{
-		return "hello " + name;
+		return comicService.getComicsByCharsNameStartsWith(characterNameStartsWith);
 	}
 }

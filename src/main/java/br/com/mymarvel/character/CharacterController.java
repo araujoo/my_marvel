@@ -30,16 +30,12 @@ public class CharacterController {
 	@Autowired
 	private CharacterService characterService;
 
-	@RequestMapping(value = "/getChars", method = RequestMethod.GET)
-	public List<Character> getChars(@RequestParam("name") String name) {
-		return characterService.getChars(name);
-	}
-
-	@RequestMapping(value = "/teste", produces = "application/json" )
-	public List<Character> do_requisition(@RequestParam("nameStartsWith") String nameStartsWith) throws IOException{
+	@RequestMapping(value = "/thumbnails/characters", produces = "application/json" )
+	public List<Character> getCharactersNameStartsWith(@RequestParam("nameStartsWith") String nameStartsWith) throws IOException{
 		
-		return characterService.getCharacters(nameStartsWith);
-
+		return characterService.getCharactersNameStartsWith(nameStartsWith);
 	}
+	
+	
 
 }
