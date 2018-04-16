@@ -35,42 +35,11 @@ public class CharacterController {
 		return characterService.getChars(name);
 	}
 
-	@RequestMapping(value = "/teste", produces = "application/json")
-	public String do_requisition() throws IOException{
-		URL url = new URL("http://gateway.marvel.com/v1/public/characters?nameStartsWith=dead&ts=1&apikey=399252e317d7557e0a22b326084ab614&hash=bd81c0769851c3c7e91a30dbf738364d");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.connect();
+	@RequestMapping(value = "/teste", produces = "application/json" )
+	public List<Character> do_requisition(@RequestParam("nameStartsWith") String nameStartsWith) throws IOException{
 		
-		
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + "http://localhost:8080/getChars?name=oberdan");
-		System.out.println("Response Code : " + responseCode);
+		return characterService.getCharacters(nameStartsWith);
 
-		BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()) );
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		con.disconnect();
-
-		//print result
-		System.out.println(response.toString());
-
-		JsonParser parser = new JsonParser();
-		JsonObject root = parser.parse(response.toString()).getAsJsonObject();
-		//JsonObject qwerty = root.getAsJsonObject("copyright");
-		
-		System.out.println("o copyright é: " + root.get("copyright").getAsString());
-		
-		
-		
-		
-		
-		return "ola mundo";
 	}
 
 }
