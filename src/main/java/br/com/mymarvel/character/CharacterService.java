@@ -25,11 +25,11 @@ public class CharacterService {
 		
 		if(nameStartsWith.isEmpty())
 		{
+			
 			return (new ArrayList<>());
 		}
 		
 		characters = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
 		return characters;
-		//return ApplicationAssistance.parseJsonCharacterNameStartWith(str_charactersJSON);
 	}
 }
