@@ -42,11 +42,11 @@ public class ApplicationAssistance {
 			return response.toString();
 		}
 		
-		public static List<Character> parseJsonCharacterNameStartWith(String str_character_json)
+		public static List<Character> parseJsonCharacterNameStartWith(String strCharacterJson)
 		{
 			List<Character> characters = new ArrayList();
 			JsonParser parser = new JsonParser();
-			JsonObject root = parser.parse(str_character_json).getAsJsonObject();
+			JsonObject root = parser.parse(strCharacterJson).getAsJsonObject();
 			JsonArray result = root.getAsJsonObject("data").getAsJsonArray("results");
 			JsonObject character_obj;
 
@@ -83,7 +83,7 @@ public class ApplicationAssistance {
 			
 			//constroi a URL da API para realizar a busca dos personagens
 			requisition_url = ApplicationAssistance.buildComicApiUrl(charactersIds);
-			requisition_url+= "&limit=" + limit + "&offset=" + offset;
+			requisition_url+= "&limit=" + ApplicationAssistance.limit + "&offset=" + offset;
 			
 			//consome o servico
 			System.out.println("url= " + requisition_url);
@@ -91,6 +91,23 @@ public class ApplicationAssistance {
 			
 			return ApplicationAssistance.processForeignRequisitionResult(inputStream);
 		}
+		
+		public static String consumeCharacterAPI(String nameStartsWith, int offset) throws IOException
+		{
+			String requisition_url;
+			InputStream inputStream;
+			
+			//constroi a URL da API para realizar a busca dos personagens
+			requisition_url = ApplicationAssistance.buildCharacterApiUrl(nameStartsWith);
+			requisition_url+= "&limit=" + ApplicationAssistance.limit + "&offset=" + offset;
+			
+			//consome o servico
+			System.out.println("url= " + requisition_url);
+			inputStream = ApplicationAssistance.doConsumeApi(requisition_url);
+			
+			return ApplicationAssistance.processForeignRequisitionResult(inputStream);
+		}
+			
 		
 		public static int getTotalResults(int scenario, String nameStartsWith, String charactersIds) throws IOException
 		{
@@ -103,7 +120,7 @@ public class ApplicationAssistance {
 			
 			//1 - character
 			case 1:
-				
+				strResponse = ApplicationAssistance.consumeCharacterAPI(nameStartsWith, 0);
 				break;
 				
 			//2 - comic
@@ -130,6 +147,11 @@ public class ApplicationAssistance {
 		public static String buildComicApiUrl(String charactersIds)
 		{
 			return ApplicationAssistance.base_url + "comics?characters=" + charactersIds + "&" + ApplicationAssistance.auth_parameters; 
+		}
+
+		public static String buildCharacterApiUrl(String nameStartsWith)
+		{
+			return ApplicationAssistance.base_url + "characters?nameStartsWith=" + nameStartsWith + "&" + ApplicationAssistance.auth_parameters; 
 		}
 		
 		public static InputStream doConsumeApi(String requisition_url) throws IOException
