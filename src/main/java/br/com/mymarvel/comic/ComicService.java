@@ -22,11 +22,16 @@ public class ComicService {
 	
 	public List<Comic> getComicsByCharsNameStartsWith(String nameStartsWith) throws IOException
 	{
-		List<Comic> comics = new ArrayList<>();
+		List<Comic> list = new ArrayList<>();
 		List<Character> characters = new ArrayList<>();
 		String strComicsJson="";
 		String strCharactersJson="";
 		String characterIds="";
+		
+		if(nameStartsWith.isEmpty())
+		{
+			return (new ArrayList<>());
+		}
 		
 		//recupera o id dos personagens
 		strCharactersJson = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
@@ -39,10 +44,16 @@ public class ComicService {
 		}
 		
 		//remover a primeira virgula
+		if(characterIds.isEmpty())
+		{
+			//caso nao tenha sido possivel montar esta lista, retornar json vazio
+			return (new ArrayList<>());
+		}
 		characterIds = characterIds.substring(1);
 		
-		strComicsJson = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);		
-		return ApplicationAssistance.parseJsonComicsCharacterNameStartWith(strComicsJson);
-		
+		list = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);
+		return list;
+		//strComicsJson = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);		
+		//return ApplicationAssistance.parseJsonComicsCharacterNameStartWith(strComicsJson);
 	}
 }

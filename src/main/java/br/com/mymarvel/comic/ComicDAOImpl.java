@@ -1,9 +1,13 @@
 package br.com.mymarvel.comic;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,23 +17,27 @@ import br.com.mymarvel.helper.ApplicationAssistance;
 public class ComicDAOImpl implements ComicDAO {
 
 	@Override
-	public String getComicsByCharsNameStartsWith(String charactersIds) throws IOException {
-
-		String charactersParam = "characters";
-		String requisition_url;
-		URL url;
-		HttpURLConnection con;
+	public List<Comic> getComicsByCharsNameStartsWith(String charactersIds) throws IOException {
 		
-		//constroi a URL da API para realizar a busca dos personagens
-		requisition_url = ApplicationAssistance.base_url + "comics" + "?" + charactersParam + "=" + charactersIds + "&" +ApplicationAssistance.auth_parameters;
-		url = new URL(requisition_url);
-	
-		//url = new URL("https://gateway.marvel.com/v1/public/comics?characters=1011087,1009268&ts=1&apikey=399252e317d7557e0a22b326084ab614&hash=bd81c0769851c3c7e91a30dbf738364d&limit=999");
-		con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.connect();
-		con.disconnect();
-		return ApplicationAssistance.processForeignRequisitionResult(con.getInputStream());
+		String response;
+		int totalComics = 0;
+		int offset = 0;
+		List<Comic> comics = new LinkedList<>();
+		List<Comic> buff = new LinkedList<>();
+		totalComics = ApplicationAssistance.getTotalResults(2, null, charactersIds);
+		
+		if(totalComics > 0)
+		{
+			while( comics.size() < totalComics )
+			{
+				System.out.println("comics size: "+comics.size());
+				response = ApplicationAssistance.consumeComicAPI(charactersIds, offset);
+				buff = ApplicationAssistance.parseJsonComicsCharacterNameStartWith(response);
+				comics.addAll(buff);
+				offset += 100;
+			}			
+		}
+		return comics;
 	}
 
 }

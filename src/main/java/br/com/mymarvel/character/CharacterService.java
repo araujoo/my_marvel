@@ -20,6 +20,12 @@ public class CharacterService {
 	public List<Character> getCharactersNameStartsWith(String nameStartsWith) throws IOException
 	{
 		String str_charactersJSON;
+		
+		if(nameStartsWith.isEmpty())
+		{
+			return (new ArrayList<>());
+		}
+		
 		str_charactersJSON = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
 		return ApplicationAssistance.parseJsonCharacterNameStartWith(str_charactersJSON);
 	}
