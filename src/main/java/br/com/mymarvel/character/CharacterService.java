@@ -3,6 +3,7 @@ package br.com.mymarvel.character;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,15 @@ public class CharacterService {
 	public List<Character> getCharactersNameStartsWith(String nameStartsWith) throws IOException
 	{
 		String str_charactersJSON;
+		List<Character> characters = new ArrayList<>();
 		
 		if(nameStartsWith.isEmpty())
 		{
 			return (new ArrayList<>());
 		}
 		
-		str_charactersJSON = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
-		return ApplicationAssistance.parseJsonCharacterNameStartWith(str_charactersJSON);
+		characters = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
+		return characters;
+		//return ApplicationAssistance.parseJsonCharacterNameStartWith(str_charactersJSON);
 	}
 }

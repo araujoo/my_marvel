@@ -34,8 +34,7 @@ public class ComicService {
 		}
 		
 		//recupera o id dos personagens
-		strCharactersJson = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
-		characters = ApplicationAssistance.parseJsonCharacterNameStartWith(strCharactersJson);
+		characters = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
 		
 		//monta a lista com os ids dos usuarios
 		for(Character c : characters)
@@ -53,7 +52,6 @@ public class ComicService {
 		
 		list = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);
 		return list;
-		//strComicsJson = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);		
-		//return ApplicationAssistance.parseJsonComicsCharacterNameStartWith(strComicsJson);
+
 	}
 }

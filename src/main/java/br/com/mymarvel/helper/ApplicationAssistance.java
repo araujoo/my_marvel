@@ -60,13 +60,12 @@ public class ApplicationAssistance {
 		
 		public static List<Comic> parseJsonComicsCharacterNameStartWith(String strCharacterJson)
 		{
-			List<Comic> comics = new LinkedList<>();
+			List<Comic> comics = new ArrayList<>();
 			JsonParser parser = new JsonParser();
 			JsonObject root = parser.parse(strCharacterJson).getAsJsonObject();
 			JsonArray result = root.getAsJsonObject("data").getAsJsonArray("results");
 			JsonObject comic_obj;
 
-			System.out.println("count = " + root.getAsJsonObject("data").get("count").getAsString());
 			for(int i = 0; i < result.size(); i++ )
 			{
 				comic_obj = result.get(i).getAsJsonObject();
@@ -86,7 +85,6 @@ public class ApplicationAssistance {
 			requisition_url+= "&limit=" + ApplicationAssistance.limit + "&offset=" + offset;
 			
 			//consome o servico
-			System.out.println("url= " + requisition_url);
 			inputStream = ApplicationAssistance.doConsumeApi(requisition_url);
 			
 			return ApplicationAssistance.processForeignRequisitionResult(inputStream);
@@ -102,7 +100,6 @@ public class ApplicationAssistance {
 			requisition_url+= "&limit=" + ApplicationAssistance.limit + "&offset=" + offset;
 			
 			//consome o servico
-			System.out.println("url= " + requisition_url);
 			inputStream = ApplicationAssistance.doConsumeApi(requisition_url);
 			
 			return ApplicationAssistance.processForeignRequisitionResult(inputStream);

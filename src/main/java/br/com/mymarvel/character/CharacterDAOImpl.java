@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,16 +29,15 @@ public class CharacterDAOImpl implements CharacterDAO{
 		int totalCharacters = 0;
 		int offset = 0;		
 		
-		List<Character> characters = new LinkedList<>();
-		List<Character> buff = new LinkedList<>();
+		List<Character> characters = new ArrayList<>();
+		List<Character> buff = new ArrayList<>();
 		totalCharacters = ApplicationAssistance.getTotalResults(1, nameStartsWith,null);
 		
 		if(totalCharacters > 0)
 		{
 			while( characters.size() < totalCharacters )
 			{
-				System.out.println("comics size: "+characters.size());
-				response = ApplicationAssistance.consumeComicAPI(nameStartsWith, offset);
+				response = ApplicationAssistance.consumeCharacterAPI(nameStartsWith, offset);
 				buff = ApplicationAssistance.parseJsonCharacterNameStartWith(response);
 				characters.addAll(buff);
 				offset += 100;
@@ -45,25 +45,5 @@ public class CharacterDAOImpl implements CharacterDAO{
 		}
 		
 		return characters;
-		
-		/*
-		String nameStartsWithReqParam = "nameStartsWith";
-		String requisition_url;
-		URL url;
-		HttpURLConnection con;
-		InputStream inputStream;
-		
-		//constroi a URL da API para realizar a busca dos personagens
-		requisition_url = ApplicationAssistance.base_url + "characters" + "?" + nameStartsWithReqParam + "=" + nameStartsWith + "&" + ApplicationAssistance.auth_parameters;
-		url = new URL(requisition_url);
-		
-		con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.connect();
-		con.disconnect();
-
-		inputStream = con.getInputStream();
-		return ApplicationAssistance.processForeignRequisitionResult(inputStream);
-		*/
 	}
 }
