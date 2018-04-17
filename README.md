@@ -1,8 +1,16 @@
 # README
 
 **Informacoes Tecnicas**
-* Versao do Java: 1.8
-* Versao do SpringBoot: 2.0.1
+* Versão do Java: 1.8
+* Versão do SpringBoot: 2.0.1
+* Versão do Spring Framework: 5.0.5.RELEASE.jar
+* Maven 3.3.9
+
+
+**Para executar**
+
+sudo mvn package && sudo mvn spring-boot:run
+
 
 
 **Rotas/Endpoints criados**
