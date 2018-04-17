@@ -31,4 +31,6 @@ Content: json com o id, nome e url do thumbnail do personagem
 GET
 
 * **Resposta:**
+HTTP Status: 200
+
 Content: json com o id, nome e url do thumbnail do quadrinho
