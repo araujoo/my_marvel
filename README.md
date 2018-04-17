@@ -9,7 +9,7 @@
 
 **Para executar**
 
-sudo mvn package && sudo mvn spring-boot:run
+$ sudo mvn package && sudo mvn spring-boot:run
 
 
 
