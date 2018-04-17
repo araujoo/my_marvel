@@ -7,18 +7,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.mymarvel.character.CharacterDAOImpl;
+import br.com.mymarvel.character.CharacterDAO;
 import br.com.mymarvel.character.Character;
-import br.com.mymarvel.helper.ApplicationAssistance;
 
 @Service		
 public class ComicService {
 	
 	@Autowired
-	private ComicDAOImpl comicDAOImpl;
+	private ComicDAO comicDAO;
 	
 	@Autowired
-	private CharacterDAOImpl characterDAOImpl;
+	private CharacterDAO characterDAO;
 	
 	public List<Comic> getComicsByCharsNameStartsWith(String nameStartsWith) throws IOException
 	{
@@ -34,7 +33,7 @@ public class ComicService {
 		}
 		
 		//recupera o id dos personagens
-		characters = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
+		characters = characterDAO.get_characters_name_starts_with(nameStartsWith);
 		
 		//monta a lista com os ids dos usuarios
 		for(Character c : characters)
@@ -50,7 +49,7 @@ public class ComicService {
 		}
 		characterIds = characterIds.substring(1);
 		
-		list = comicDAOImpl.getComicsByCharsNameStartsWith(characterIds);
+		list = comicDAO.getComicsByCharsNameStartsWith(characterIds);
 		return list;
 
 	}

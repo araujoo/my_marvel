@@ -16,7 +16,7 @@ import br.com.mymarvel.helper.ApplicationAssistance;
 public class CharacterService {
 	
 	@Autowired
-	private CharacterDAOImpl characterDAOImpl;
+	private CharacterDAO characterDAO;
 	
 	public List<Character> getCharactersNameStartsWith(String nameStartsWith) throws IOException
 	{
@@ -29,7 +29,7 @@ public class CharacterService {
 			return (new ArrayList<>());
 		}
 		
-		characters = characterDAOImpl.get_characters_name_starts_with(nameStartsWith);
+		characters = characterDAO.get_characters_name_starts_with(nameStartsWith);
 		return characters;
 	}
 }
